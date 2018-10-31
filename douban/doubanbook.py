@@ -3,6 +3,7 @@
 
 from bs4 import BeautifulSoup
 import requests
+# 自己编写的模块
 from Book import Book
 import mysql
 
@@ -33,26 +34,31 @@ def get_book_detail(html):
     # book_detail = []
     soup = BeautifulSoup(html.text, 'lxml')
     # 取得相关数据
-    book_name = soup.find(property="v:itemreviewed").text
-    author = soup.find(id="info").find('a').text
-
-    book = Book(book_name, author)
-
-    return book
+    try:
+        book_name = soup.find(property="v:itemreviewed").text
+        author = soup.find(id="info").find('a').text
+        # 使用Book类
+        book = Book(book_name, author)
+        return book
+    except Exception as e:
+        print(e)
 
 
 
 if __name__ == "__main__":
+    print(6 * '=' + '数据正在插入' + 6 * '=')
     url = 'https://book.douban.com/latest?icn=index-latestbook-all'
-    # url = 'https://book.douban.com/dd'
     book_html = get_html(url)
     book_list = get_book_list(book_html)
 
     for book_list_item in book_list:
         sub_page_html = get_html(book_list_item)
         book = get_book_detail(sub_page_html)
-        insert_sql = '''INSERT INTO tb_book(tb_book.bookName, tb_book.author) VALUES({0}, {1})'''.format(book.book_name, book.author)
-        # insert_sql = '''INSERT INTO tb_book(tb_book.bookName, tb_book.author) VALUES({0}, {1})'''.format('jj_ll', 'jj')
-        print(insert_sql)
-        print('insert_sql')
-        mysql.sql_to_db(insert_sql)
+
+        try:
+            insert_sql = '''INSERT INTO tb_book(tb_book.bookName, tb_book.author) VALUES("{0}", "{1}")'''.format(book.book_name, book.author)
+            mysql.sql_to_db(insert_sql)
+        except Exception as e:
+            print(e)
+    print(6 * '=' + '数据插入完成！' + 6 * '=')
+    

@@ -3,6 +3,9 @@
 
 
 class Book(object):
+    '''
+    定义类
+    '''
     # 1）定义几个变量，实例化时就需要传入几个变量
     # def __init__(self, book_name, book_rate, author, publish_date, book_comment, book_cover):
     def __init__(self, book_name, author):

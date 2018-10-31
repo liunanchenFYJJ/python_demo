@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-from lxml import etree
 from bs4 import BeautifulSoup
 import requests
 
