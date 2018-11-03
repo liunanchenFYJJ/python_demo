@@ -14,7 +14,10 @@ def get_html(url):
     '''
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"}
-    html = requests.get(url, headers=headers)
+    try:
+        html = requests.get(url, headers=headers)
+    except Exception as e:
+        print(e)
     return html
 
 
@@ -24,10 +27,13 @@ def get_img(html):
     return imglist
     '''
     imglist = []
-    soup = BeautifulSoup(html.text, 'lxml')
-    target_img = soup.find('div', class_="TypeList").find_all('img')
-    for img in target_img:
-        imglist.append(img.get('src'))
+    try:
+        soup = BeautifulSoup(html.text, 'lxml')
+        target_img = soup.find('div', class_="TypeList").find_all('img')
+        for img in target_img:
+            imglist.append(img.get('src'))
+    except Exception as e:
+        print(e)
     return imglist
 
 def empty_folder(path):
@@ -63,13 +69,16 @@ if __name__ == '__main__':
                     target_html = get_html(target_url)
                     target_imglist = get_img(target_html)
 
-                    for imgurl in target_imglist:
-                        print(str(i) + '_' + str(target_imglist.index(imgurl) + 1))
-                        # 存放路径
-                        target_pathName = '/Users/liunan/Desktop/python_demo/beauty_demo/beauty/img' + str(i) + '_' + str(target_imglist.index(imgurl) + 1) + '.jpg'
-                        # 设备图片下载路径 和 文件名称
-                        with open(target_pathName, 'wb') as f:
-                            f.write(requests.get(imgurl).content)
+                    if target_imglist == None:
+                        print('element not found')
+                    else:
+                        for imgurl in target_imglist:
+                            print(str(i) + '_' + str(target_imglist.index(imgurl) + 1))
+                            # 存放路径
+                            target_pathName = '/Users/liunan/Desktop/python_demo/beauty_demo/beauty/img' + str(i) + '_' + str(target_imglist.index(imgurl) + 1) + '.jpg'
+                            # 设备图片下载路径 和 文件名称
+                            with open(target_pathName, 'wb') as f:
+                                f.write(requests.get(imgurl).content)
                 print('下载完成!') 
             except Exception as e:
                 print(e)
