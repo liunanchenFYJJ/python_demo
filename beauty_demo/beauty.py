@@ -29,7 +29,9 @@ def get_img(html):
     imglist = []
     try:
         soup = BeautifulSoup(html.text, 'lxml')
-        target_img = soup.find('div', class_="TypeList").find_all('img')
+        # target_img = soup.find('div', class_="TypeList").find_all('img') 
+        # 可以用属性，尽量不用关键字
+        target_img = soup.find('div', {"class": "TypeList"}).find_all('img')
         for img in target_img:
             imglist.append(img.get('src'))
     except Exception as e:

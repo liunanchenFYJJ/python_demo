@@ -19,8 +19,13 @@ def getelement(url):
     
     return h1
 
-h1 = getelement('http://www.pythonscraping.com/pages/page1.html')
-if h1 == None:
-    print('element not found')
-else:
-    print(h1)
+def main():
+    h1 = getelement('http://www.pythonscraping.com/pages/page1.html')
+    if h1 == None:
+        print('element not found')
+    else:
+        print(h1)
+
+
+if __name__ == '__main__':
+    main()
