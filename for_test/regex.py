@@ -23,12 +23,14 @@ def main():
     # 使用正则
     # 把属性值换成正则表达式
     regex_str = re.compile('\.\.\/img\/gifts\/img.\.jpg')
-    imglist = soup.find_all('img', {"src": regex_str})
-    for i in imglist:
+    # imglist = soup.find_all('img', {"src": regex_str})
+    # 利用lambda表达式找到只有两个属性的标签
+    imglist = soup.find_all(lambda tag: len(tag.attrs) == 2)
+    # for i in imglist:
         # attrs 获取属性
-        print(i.attrs) 
+        # print(i.attrs) 
 
-    # print(namelist)
+    print(imglist)
 
 if __name__ == '__main__':
     main()
