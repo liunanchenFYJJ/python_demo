@@ -33,7 +33,7 @@ def get_img(html):
         # 可以用属性，尽量不用关键字
         target_img = soup.find('div', {"class": "TypeList"}).find_all('img')
         for img in target_img:
-            imglist.append(img.get('src'))
+            imglist.append(img.attrs['src'])
     except Exception as e:
         print(e)
     return imglist

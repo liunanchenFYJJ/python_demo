@@ -28,7 +28,7 @@ def get_book_list(html):
         # div_list = soup.find_all('div', class_='detail-frame')
         div_list = soup.find_all('div', {"class": "detail-frame"})
         for div_item in div_list:
-            href = div_item.find('a').get('href')
+            href = div_item.find('a').attrs['href']
             book_url_list.append(href)
     except Exception as e:
           print(e)
