@@ -24,6 +24,8 @@ def get_new_links(newurl):
     soup = BeautifulSoup(html, 'lxml')
     return soup.find('div', {"id": "bodyContent"}).find_all('a', href=re.compile('^(/wiki/)((?!:).)*$'))
 
+# 可以建立一个pages集合用来排重
+pages = set()
 def main():
     target_url = '/wiki/Kevin_Bacon'
     target_links = get_new_links(target_url)
